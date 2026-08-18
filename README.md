@@ -1,4 +1,5 @@
 # 🚀 Servidor iPXE Híbrido (srv-pxe)
+<img width="1672" height="941" alt="Funcionamento _ 1 srvipxe" src="https://github.com/user-attachments/assets/f0868403-3f27-4964-a1ef-f409484cf01c" />
 
 **Servidor de Deploy e Diagnóstico via Rede (Network Boot Server)**  
 *Desenvolvido por Elias Oliveira | Analista de Sistemas*
