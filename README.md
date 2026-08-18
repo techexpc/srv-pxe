@@ -38,7 +38,7 @@ A infraestrutura foi desenhada para **zero impacto** no DHCP corporativo, utiliz
 
 ## 🛠️ Pré-requisitos
 
-*   **SO:** Ubuntu 22.04+ / Linux Lite 8.0+ (Testado em Dell OptiPlex / Hardware corporativo).
+*   **SO:** Ubuntu 22.04+ / Linux Lite 8.0+ (https://www.linuxliteos.com/pt-br/) Testado em Dell OptiPlex / Hardware corporativo.
 *   **Pacotes:** `nginx`, `dnsmasq`, `ipxe`, `wimtools`, `samba`, `openssh-server`.
 *   **Imagens:** ISO do Hiren's BootCD PE, Imagens do Macrium Reflect.
 
