@@ -1,8 +1,7 @@
 # 🚀 Servidor iPXE Híbrido (srv-pxe)
-<img width="1672" height="941" alt="Funcionamento _ 1 srvipxe" src="https://github.com/user-attachments/assets/f0868403-3f27-4964-a1ef-f409484cf01c" />
-
 **Servidor de Deploy e Diagnóstico via Rede (Network Boot Server)**  
 *Desenvolvido por Elias Oliveira | Analista de Sistemas*
+<img width="1672" height="941" alt="iPXE - 4" src="https://github.com/user-attachments/assets/146bf20f-aa70-40f0-9d58-494604f4fc2d" />
 
 ![Linux](https://img.shields.io/badge/OS-Linux%20Lite%20/%20Ubuntu-blue)
 ![iPXE](https://img.shields.io/badge/Boot-iPXE-green)
@@ -19,6 +18,7 @@ O **srv-pxe** é uma solução corporativa de inicialização via rede que super
 *   Diagnóstico e Rescue (Hiren's BootCD PE).
 *   Backup e Restauração de Imagens (Macrium Reflect).
 *   Ambientes de Disaster Recovery e Laboratórios.
+<img width="1672" height="941" alt="Funcionamento _ 1 srvipxe" src="https://github.com/user-attachments/assets/698653b4-b534-40fd-bb18-9ec9fee0807b" />
 
 ---
 
@@ -134,5 +134,5 @@ Este projeto foi fundamentado em padrões da indústria e RFCs do IETF:
 Projetos de infraestrutura aberta são essenciais para a evolução do Service Desk e Suporte Corporativo. Contribuições, forks e issues são bem-vindos!
 
     Autor: Elias Oliveira
-    Contato: [Seu LinkedIn / Email]
+    Contato: https://www.linkedin.com/in/elias-analistatecnico/ / oliveira.expc@gmail.com
     Licença: MIT License
