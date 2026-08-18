@@ -49,6 +49,89 @@ A infraestrutura foi desenhada para **zero impacto** no DHCP corporativo, utiliz
 
 ### 1. Preparação do Ambiente e IP Fixo
 Configure o Netplan para IP estático e pare serviços concorrentes:
-```bash
+```
 sudo systemctl stop tftpd-hpa atftpd isc-dhcp-server 2>/dev/null
 sudo apt-get update && sudo apt-get install -y nginx dnsmasq ipxe ipxe-qemu wimtools samba samba-common-bin
+```
+### 2. Estrutura de Diretórios e Binários
+```bash
+sudo mkdir -p /tftpboot /var/www/html/ipxe/hirens /var/www/html/ipxe/macrium
+sudo cp /usr/lib/ipxe/ipxe.efi /tftpboot/
+sudo cp /usr/lib/ipxe/undionly.kpxe /tftpboot/
+sudo wget -O /var/www/html/ipxe/wimboot https://github.com/ipxe/wimboot/releases/latest/download/wimboot
+```
+### 3. Configuração do ProxyDHCP (Dnsmasq)
+Edite /etc/dnsmasq.conf:
+```ini
+port=0
+dhcp-range=10.64.0.0,proxy
+enable-tftp
+tftp-root=/tftpboot
+pxe-service=x86PC, "Boot Legacy BIOS", undionly.kpxe
+pxe-service=X86-64_EFI, "Boot UEFI PXE", ipxe.efi
+```
+4. Injeção de Ferramentas no WIM (Heren's)
+Utilize o wimtools para injetar ferramentas portáteis diretamente na imagem do WinPE:
+```bash
+sudo wimlib-imagex update /var/www/html/ipxe/hirens/boot.wim 1 <<EOF
+add /home/srvipxe/Macrium /Programs/Macrium
+add /home/srvipxe/Putty /Programs/Putty
+EOF
+```
+5. Menu iPXE (/var/www/html/ipxe/boot.ipxe)
+```ipxe
+#!ipxe
+dhcp
+set boot-url http://10.64.0.80/ipxe
+menu Central de Diagnostico e Deploy - Host: srv-pxe
+item hirens   [1] Hiren's BootCD PE (Injetado)
+item macrium  [2] Macrium Reflect (Deploy)
+choose target && goto ${target}
+
+:hirens
+kernel ${boot-url}/wimboot
+initrd ${boot-url}/hirens/bcd bcd
+initrd ${boot-url}/hirens/boot.sdi boot.sdi
+initrd ${boot-url}/hirens/boot.wim boot.wim
+boot
+```
+🛡️ Troubleshooting e QA
+Erro de Mapeamento SMB no WinPE (System error 86)
+Ambientes WinPE legados exigem NTLMv1. Se o mapeamento de rede falhar, abra o CMD (Shift + F10) e force a limpeza de cache e o mapeamento com domínio local:
+```cmd
+net use * /delete /y
+net use Z: \\10.64.0.80\Macrium_Restrito /user:.\srvipxebkp SUA_SENHA
+```
+Checklist de Validação (QA)
+
+* dnsmasq --test retorna "syntax check OK".
+* Nginx serve o script boot.ipxe via HTTP.
+* Samba permite acesso anônimo no Macrium_Publico e restrito no Macrium_Restrito.
+* Cliente UEFI e Legacy iniciam o menu iPXE corretamente.
+
+💾 Backup e Restauração
+Para salvar o estado funcional do servidor (configurações, TFTP, Nginx e WIMs):
+```bash
+sudo tar -czvf /home/srvipxe/backup_srv_pxe_funcional.tar.gz \
+  /etc/netplan/ /etc/dnsmasq.conf /etc/samba/smb.conf /tftpboot/ /var/www/html/ipxe/
+```
+Restaurar:
+```bash
+sudo tar -xzvf /home/srvipxe/backup_srv_pxe_funcional.tar.gz -C /
+sudo systemctl restart nginx dnsmasq smbd nmbd
+```
+📚 Fundamentação Teórica e Referências
+Este projeto foi fundamentado em padrões da indústria e RFCs do IETF:
+
+* RFC 2131: Dynamic Host Configuration Protocol (DHCP).
+* RFC 4578: DHCP Options for Intel PXE.
+* RFC 1350: The TFTP Protocol.
+* iPXE Open Source Network Boot Firmware
+* Wimlib - Open source Windows Imaging
+
+🤝 Contribuições e Licença
+Projetos de infraestrutura aberta são essenciais para a evolução do Service Desk e Suporte Corporativo. Contribuições, forks e issues são bem-vindos!
+
+    Autor: Elias Oliveira
+    Contato: [Seu LinkedIn / Email]
+    Licença: MIT License
