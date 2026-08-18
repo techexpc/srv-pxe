@@ -133,7 +133,7 @@ Este projeto foi fundamentado em padrões da indústria e RFCs do IETF:
 🤝 Contribuições e Licença
 Projetos de infraestrutura aberta são essenciais para a evolução do Service Desk e Suporte Corporativo. Contribuições, forks e issues são bem-vindos!
 
-  Autor: Elias Oliveira
-  Linkedin: (https://www.linkedin.com/in/elias-analistatecnico)
-  Contato: oliveira.expc@gmail.com
-  Licença: MIT License
+* Autor: Elias Oliveira
+* Linkedin: https://www.linkedin.com/in/elias-analistatecnico
+* Contato: oliveira.expc@gmail.com
+* Licença: MIT License
